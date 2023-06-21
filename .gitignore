@@ -19,6 +19,14 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+/.idea/.gitignore
+/.idea/gradle.xml
+/.idea/sonarlint/issuestore/index.pb
+/.idea/sonarlint/securityhotspotstore/index.pb
+/.idea/misc.xml
+/.idea/uiDesigner.xml
+/.idea/vcs.xml
+
 
 ### Eclipse ###
 .apt_generated
