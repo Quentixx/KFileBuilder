@@ -1,5 +1,5 @@
 # KFileBuilder
-A simple desktop application to build directories and files from templates. Built with Compose for desktop using Kotlin.
+A simple desktop application to build directories and files from templates. Built with [Compose for Desktop](https://github.com/JetBrains/compose-multiplatform) using Kotlin.
 
 ⚠️ Note: This project is currently in the planning stage and specific features are still being defined.
 
@@ -15,9 +15,10 @@ A simple desktop application to build directories and files from templates. Buil
 - #### Intuitive User Interface:
    The user interface will be designed to be user-friendly and intuitive, enabling users to easily manage their templates and create folder and file structures with just a few clicks.
 
+## In progress
+- __Basic Interface__ : user-friendly interface using [Compose for Desktop](https://github.com/JetBrains/compose-multiplatform)
+- __Templates tab__ : interface for creating and managing templates
+
 ## TODO
-- Define the project architecture.
-- Implement the basic user interface.
-- Set up the template creation logic.
-- Set up the template saving logic.
+- Set up the template managing logic (creating, editing & deleting).
 - Implement the creation of folder and file structures from templates.
