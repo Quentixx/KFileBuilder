@@ -1,2 +1,0 @@
-20:54:23.893 [INFO] [AWT-EventQueue-0] [Main] Starting program
-20:56:40.545 [INFO] [AWT-EventQueue-0] [Main] Ending program

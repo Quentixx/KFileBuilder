@@ -1,5 +1,5 @@
 ### Project ignored files ###
-latest_logs.txt
+/latest_logs.txt
 
 ### Gradle ###
 .gradle
