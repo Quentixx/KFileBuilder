@@ -3,7 +3,10 @@ package tab
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -43,15 +46,21 @@ fun TemplatesTab() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            val listState = rememberLazyListState()
+
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    state = listState,
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     items(templates) { template ->
                         TemplateLine(template) // Show the template line with [name, edit button, delete button]
                         Spacer(Modifier.height(16.dp))
                     }
                 }
+
+                // Adding Vertical Scrollbar
+                TemplatesScrollbar(listState)
             }
         }
 
@@ -72,6 +81,27 @@ fun TopMenu() = Row(
         Text("Créer une template", color = Color.White)
     }
 }
+
+@Composable
+fun TemplatesScrollbar(listState : LazyListState) {
+    val scrollbarStyle = ScrollbarStyle(
+        minimalHeight = 16.dp,
+        thickness = 8.dp,
+        shape = RoundedCornerShape(4.dp),
+        hoverDurationMillis = 300,
+        unhoverColor = Color.White.copy(alpha = 0.5f),
+        hoverColor = Color.Black.copy(alpha = 0.50f)
+    )
+
+    Box(Modifier.fillMaxSize()) {
+        VerticalScrollbar(
+            rememberScrollbarAdapter(listState),
+            modifier = Modifier.align(Alignment.CenterEnd),
+            style = scrollbarStyle
+        )
+    }
+}
+
 
 @Composable
 fun TemplateLine(template: String) {
