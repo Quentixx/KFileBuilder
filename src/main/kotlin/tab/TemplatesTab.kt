@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun TemplatesTab() {
@@ -73,24 +74,35 @@ fun TopMenu() = Row(
 }
 
 @Composable
-fun TemplateLine(template: String) = Row(
-    Modifier.fillMaxWidth(),
-    verticalAlignment = Alignment.CenterVertically,
-    horizontalArrangement = Arrangement.Center
-)
-{
+fun TemplateLine(template: String) {
+    Row(
+        Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .padding(16.dp),
+            contentAlignment = Alignment.CenterEnd
+        ) {
+            Text(
+                text = template,
+                color = Color.LightGray,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp)) // Add horizontal spacing between text and buttons
 
-    Text(
-        template, color = Color.LightGray,
-        modifier = Modifier.padding(16.dp)
-    )
-    Spacer(modifier = Modifier.width(16.dp)) // Add horizontal spacing between text and buttons
-
-    Row {
-        EditTemplateIcon()
-        DeleteTemplateIcon()
+        Row(modifier = Modifier.weight(1f)) {
+            EditTemplateIcon()
+            DeleteTemplateIcon()
+        }
     }
 }
+
+
 
 @Composable
 fun EditTemplateIcon() = Button(
