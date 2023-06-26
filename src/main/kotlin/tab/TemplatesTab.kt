@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.ui.text.style.TextOverflow
+import ext.setOnHoverHandCursorEnabled
 
 @Composable
 fun TemplatesTab() {
@@ -75,15 +76,18 @@ fun TopMenu() = Row(
     Modifier.fillMaxWidth(),
     horizontalArrangement = Arrangement.Center
 ) {
-    Button(onClick = {
-        // TODO: Create Template redirection
-    }) {
+    Button(
+        onClick = {
+            // TODO: Create Template redirection
+        },
+        modifier = Modifier.setOnHoverHandCursorEnabled()
+    ) {
         Text("Créer une template", color = Color.White)
     }
 }
 
 @Composable
-fun TemplatesScrollbar(listState : LazyListState) {
+fun TemplatesScrollbar(listState: LazyListState) {
     val scrollbarStyle = ScrollbarStyle(
         minimalHeight = 16.dp,
         thickness = 8.dp,
@@ -96,7 +100,9 @@ fun TemplatesScrollbar(listState : LazyListState) {
     Box(Modifier.fillMaxSize()) {
         VerticalScrollbar(
             rememberScrollbarAdapter(listState),
-            modifier = Modifier.align(Alignment.CenterEnd),
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .setOnHoverHandCursorEnabled(),
             style = scrollbarStyle
         )
     }
@@ -133,13 +139,14 @@ fun TemplateLine(template: String) {
 }
 
 
-
 @Composable
 fun EditTemplateIcon() = Button(
     onClick = {
         // TODO: Edit template redirection
     },
-    modifier = Modifier.size(100.dp, 35.dp)
+    modifier = Modifier
+        .size(100.dp, 35.dp)
+        .setOnHoverHandCursorEnabled()
 ) {
     Text("Editer", color = Color.White)
 }
@@ -150,7 +157,9 @@ fun DeleteTemplateIcon() =
         onClick = {
             // TODO: Delete template confirmation redirection
         },
-        modifier = Modifier.size(50.dp)
+        modifier = Modifier
+            .size(50.dp)
+            .setOnHoverHandCursorEnabled()
     ) {
         Icon(
             imageVector = Icons.Default.Delete,

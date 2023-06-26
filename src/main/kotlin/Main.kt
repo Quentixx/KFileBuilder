@@ -21,6 +21,7 @@ import tab.InfoTab
 import tab.TemplatesTab
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import ext.setOnHoverHandCursorEnabled
 
 private val logger = KotlinLogging.logger { }
 
@@ -36,17 +37,20 @@ fun App() {
                     Tab(
                         text = { Text("Configuration") },
                         selected = selectedTab == 0,
-                        onClick = { selectedTab = 0 }
+                        onClick = { selectedTab = 0 },
+                        modifier = Modifier.setOnHoverHandCursorEnabled()
                     )
                     Tab(
                         text = { Text("Templates") },
                         selected = selectedTab == 1,
-                        onClick = { selectedTab = 1 }
+                        onClick = { selectedTab = 1 },
+                        modifier = Modifier.setOnHoverHandCursorEnabled()
                     )
                     Tab(
                         text = { Text("Info") },
                         selected = selectedTab == 2,
-                        onClick = { selectedTab = 2 }
+                        onClick = { selectedTab = 2 },
+                        modifier = Modifier.setOnHoverHandCursorEnabled()
                     )
                 }
 
