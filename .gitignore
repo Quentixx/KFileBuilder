@@ -1,5 +1,6 @@
 ### Project ignored files ###
 /latest_logs.txt
+/templates.json
 
 ### Gradle ###
 .gradle
