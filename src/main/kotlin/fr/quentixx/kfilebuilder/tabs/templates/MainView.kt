@@ -1,40 +1,34 @@
 package fr.quentixx.kfilebuilder.tabs.templates
 
-import androidx.compose.foundation.*
+import fr.quentixx.kfilebuilder.components.Scrollbar
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.ui.text.style.TextOverflow
-import ext.setOnHoverHandCursorEnabled
+import androidx.compose.ui.unit.dp
+import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
+import fr.quentixx.kfilebuilder.json.TemplateDirectory
 
+/**
+ * The main view of templates. All templates are listed here, with the name of the template and buttons to edit or delete it.
+ */
 @Composable
-fun TemplatesTab() {
-    val templates = listOf(
-        "Template of satoshi",
-        "Template czc2",
-        "Template fzfzf",
-        "Template cccccc",
-        "Template xxxxxx",
-        "Template zxzsxs",
-        "Template eaeaeaeaea",
-        "Template sxssxsxsxsx",
-        "Template 1121245",
-        "Template 1",
-        "Template 2",
-        "Template 3"
-    )
-
+fun MainView(
+    templates: List<TemplateDirectory>,
+    screenManager: TemplateScreenManager
+) {
     Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center) {
 
         Column(
@@ -43,7 +37,7 @@ fun TemplatesTab() {
         ) {
             Spacer(Modifier.height(16.dp))
 
-            TopMenu()
+            TopMenu(screenManager)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -55,13 +49,13 @@ fun TemplatesTab() {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(templates) { template ->
-                        TemplateLine(template) // Show the template line with [name, edit button, delete button]
+                        TemplateLine(template.name) // Show the template line with [name, edit button, delete button]
                         Spacer(Modifier.height(16.dp))
                     }
                 }
 
                 // Adding Vertical Scrollbar
-                TemplatesScrollbar(listState)
+                Scrollbar(listState)
             }
         }
 
@@ -72,13 +66,13 @@ fun TemplatesTab() {
 }
 
 @Composable
-fun TopMenu() = Row(
+fun TopMenu(screenManager: TemplateScreenManager) = Row(
     Modifier.fillMaxWidth(),
     horizontalArrangement = Arrangement.Center
 ) {
     Button(
         onClick = {
-            // TODO: Create Template redirection
+            screenManager.navigateTo(TemplateScreen.CREATE_TEMPLATE_VIEW)
         },
         modifier = Modifier.setOnHoverHandCursorEnabled()
     ) {
@@ -86,27 +80,7 @@ fun TopMenu() = Row(
     }
 }
 
-@Composable
-fun TemplatesScrollbar(listState: LazyListState) {
-    val scrollbarStyle = ScrollbarStyle(
-        minimalHeight = 16.dp,
-        thickness = 8.dp,
-        shape = RoundedCornerShape(4.dp),
-        hoverDurationMillis = 300,
-        unhoverColor = Color.White.copy(alpha = 0.5f),
-        hoverColor = Color.Black.copy(alpha = 0.50f)
-    )
 
-    Box(Modifier.fillMaxSize()) {
-        VerticalScrollbar(
-            rememberScrollbarAdapter(listState),
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .setOnHoverHandCursorEnabled(),
-            style = scrollbarStyle
-        )
-    }
-}
 
 
 @Composable

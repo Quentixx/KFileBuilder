@@ -18,14 +18,32 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlin.system.exitProcess
 import androidx.compose.material.*
-import tab.ConfigurationTab
-import tab.InfoTab
-import tab.TemplatesTab
+import androidx.compose.ui.Alignment
+import fr.quentixx.kfilebuilder.tabs.ConfigurationTab
+import fr.quentixx.kfilebuilder.tabs.InfoTab
+import fr.quentixx.kfilebuilder.tabs.templates.TemplatesTab
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import ext.setOnHoverHandCursorEnabled
+import androidx.compose.ui.window.WindowPosition
+import androidx.compose.ui.window.rememberWindowState
+import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 
 private val logger = KotlinLogging.logger { }
+
+fun main() = application {
+    Window(
+        state = rememberWindowState(
+            position = WindowPosition(Alignment.Center),
+        ),
+        onCloseRequest = {
+            logger.info { "Ending program" }
+            exitProcess(0)
+        }) {
+        logger.info { "Starting program" }
+
+        App()
+    }
+}
 
 @Composable
 @Preview
@@ -63,15 +81,5 @@ fun App() {
                 }
             }
         }
-    }
-}
-
-fun main() = application {
-    Window(onCloseRequest = {
-        logger.info { "Ending program" }
-        exitProcess(0)
-    }) {
-        logger.info { "Starting program" }
-        App()
     }
 }
