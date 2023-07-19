@@ -27,6 +27,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.1")
 
     testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.compose.ui:ui-test-junit4-desktop:1.4.1")
+
 }
 
 compose.desktop {
