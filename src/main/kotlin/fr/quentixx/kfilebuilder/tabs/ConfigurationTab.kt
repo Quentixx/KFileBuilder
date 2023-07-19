@@ -1,4 +1,4 @@
-package tab
+package fr.quentixx.kfilebuilder.tabs
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

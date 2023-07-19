@@ -1,4 +1,4 @@
-package json
+package fr.quentixx.kfilebuilder.json
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import mu.KotlinLogging

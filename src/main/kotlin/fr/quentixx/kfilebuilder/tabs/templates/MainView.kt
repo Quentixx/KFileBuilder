@@ -1,4 +1,4 @@
-package tab
+package fr.quentixx.kfilebuilder.tabs.templates
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*

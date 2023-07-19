@@ -1,4 +1,4 @@
-package ext
+package fr.quentixx.kfilebuilder.ext
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerIcon

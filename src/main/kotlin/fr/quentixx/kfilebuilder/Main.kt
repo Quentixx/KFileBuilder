@@ -1,3 +1,5 @@
+package fr.quentixx.kfilebuilder
+
 import mu.KotlinLogging
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background

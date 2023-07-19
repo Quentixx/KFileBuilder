@@ -1,4 +1,4 @@
-package tab.template
+package fr.quentixx.kfilebuilder.tabs.templates
 
 import androidx.compose.runtime.mutableStateOf
 
