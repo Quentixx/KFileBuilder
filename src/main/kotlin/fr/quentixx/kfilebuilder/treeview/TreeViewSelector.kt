@@ -62,7 +62,6 @@ fun TreeViewSelectorWindow(
             size = DpSize(500.dp, 300.dp)
         )
     ) {
-
         TreeViewSelectorBox(
             sourceDir,
             onlyDirectories,
@@ -246,83 +245,5 @@ private fun DirectoryDialog(onDirectorySelected: (File) -> Unit) {
         ) {
             Text("Open")
         }
-    }
-}
-
-@Composable
-private fun FileList(
-    currentSelectedFile: MutableState<File?>,
-    dir: File,
-    onlyDirectories: Boolean,
-    paddingSave: Dp = 0.dp
-) {
-    println("FileList : Dir : ${dir.path}")
-    Column {
-        dir.listFiles()?.forEach { file ->
-            println("FileRow : Dir : ${file.path}")
-            FileRow(currentSelectedFile, file, paddingSave, onlyDirectories)
-        }
-    }
-}
-
-@Composable
-private fun FileRow(
-    currentSelectedFile: MutableState<File?>,
-    file: File,
-    paddingSave: Dp = 0.dp,
-    onlyDirectories: Boolean
-) {
-    var expanded by remember { mutableStateOf(false) }
-    val padding = paddingSave + 16.dp
-    val isDir = file.isDirectory
-    val isEmptyDir = isDir && file.hasNoSubDirectories()
-
-    val isCurrentlySelected = currentSelectedFile.value == file
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = padding)
-            .clickable {
-
-                currentSelectedFile.value = file
-
-                if (!isEmptyDir) expanded = !expanded
-            }
-            .background(
-                if (isCurrentlySelected) Color.Gray else Color.Transparent
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        if (isDir) {
-            var spacingSize = 8.dp
-
-            if (isEmptyDir) {
-                spacingSize *= 2
-            } else {
-                if (expanded) {
-                    IconArrowDown(8.dp)
-                } else {
-                    IconArrowRight(8.dp)
-                }
-            }
-
-            Spacer(Modifier.width(spacingSize))
-            IconDir()
-        } else if (!onlyDirectories) {
-            IconFile()
-        } else {
-            return@Row
-        }
-        Spacer(Modifier.width(8.dp))
-        Text(
-            text = file.name,
-            color = Color.White
-        )
-    }
-
-    if (expanded && file.isDirectory) {
-        FileList(currentSelectedFile, file, onlyDirectories, padding)
     }
 }

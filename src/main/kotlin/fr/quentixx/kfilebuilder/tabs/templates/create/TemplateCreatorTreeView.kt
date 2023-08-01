@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
+import fr.quentixx.kfilebuilder.treeview.TreeViewBuilder
 import fr.quentixx.kfilebuilder.treeview.TreeViewSelectorWindow
 import java.io.File
 
@@ -22,9 +23,13 @@ import java.io.File
 @Composable
 fun TemplateBuilderView() {
     println("TemplateBuilderView")
-    val rootNode = mutableStateOf(Node(System.getProperty("user.home"), true))
+    val sourceDirPath = System.getProperty("user.home")
+    val sourceDir = File(sourceDirPath)
+    val sourceNode = mutableStateOf(Node(sourceDirPath, true))
 
-    NodeView(rootNode)
+    // NodeView(rootNode)
+
+    TreeViewBuilder()
 }
 
 @Composable
@@ -40,7 +45,7 @@ fun NodeView(node: MutableState<Node>) {
             NodeEditRow(node)
         }
 
-        val listOfChildren = node.value.children.sortedByDescending { it.isFolder }
+        val listOfChildren = node.value.children.sortedByDescending { it.isDirectory }
         for (childNode in listOfChildren) {
             println("\nChildNode Info: $childNode")
 
@@ -62,36 +67,36 @@ fun NodeEditRow(node: MutableState<Node>) {
 
         RootNodePathText(node)
 
-        Spacer(Modifier.width(32.dp))
+        // Spacer(Modifier.width(32.dp))
 
-        if (node.value.isFolder) {
+        if (node.value.isDirectory) {
             // Spacer(Modifier.width(16.dp))
             TemplateAddDirIcon(
                 onClick = {
                     val parentNode = node.value
-                    val newNode = Node("New directory", true, parentNode)
+                    val newNode = Node("New directory", true)
                     val children = node.value.children + newNode
 
-                    println("Click add dir on node: ${node.value.name}")
+                    println("Click add dir on node: ${node.value.path}")
 
-                    node.value = node.value.copy(
+                    /*node.value = node.value.copy(
                         children = children
-                    )
+                    )*/
                 }
             )
 
-            Spacer(Modifier.width(32.dp))
+            // Spacer(Modifier.width(32.dp))
 
             TemplateAddFileIcon(
                 onClick = {
-                    node.value = node.value.copy(
+                   /* node.value = node.value.copy(
                         children = node.value.children + Node("New file", false)
-                    )
+                    )*/
                     //node.value = node.value.copy(children = node.value.children + Node("New File", false))
                 }
             )
 
-            Spacer(Modifier.width(32.dp))
+            // Spacer(Modifier.width(32.dp))
 
             OpenTreeViewSelectorButton(node)
         }
@@ -101,11 +106,11 @@ fun NodeEditRow(node: MutableState<Node>) {
 @Composable
 fun RootNodePathText(node: MutableState<Node>) =
     TextField(
-        value = node.value.name,
+        value = node.value.path,
         onValueChange = {
             val formattedValue = it.replace(" ", "")
 
-            node.value = node.value.copy(name = formattedValue)
+            node.value = node.value.copy(path = formattedValue)
             println("The node path is : $formattedValue")
         },
         modifier = Modifier.size(300.dp, 50.dp),
@@ -152,14 +157,14 @@ private fun OpenTreeViewSelectorWindow(
     node: MutableState<Node>,
     onClose: () -> Unit
 ) {
-    val sourceDir = File(node.value.name)
+    val sourceDir = File(node.value.path)
     val start = System.currentTimeMillis()
 
     TreeViewSelectorWindow(sourceDir, true) {
         onClose.invoke()
 
         if (it != null) {
-            node.value = node.value.copy(name = it.absolutePath)
+            node.value = node.value.copy(path = it.absolutePath)
             println("The returned dir is : ${it.name}")
         }
 
