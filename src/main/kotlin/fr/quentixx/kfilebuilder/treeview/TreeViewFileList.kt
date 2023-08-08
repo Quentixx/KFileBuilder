@@ -52,6 +52,12 @@ fun NodeList(
         node.children.forEach {
             val mutableChild = remember { mutableStateOf(it) }
             NodeRow(mutableChild, paddingSave, nodeRowConsumer)
+
+            // Update the current children in the loop with the new children information
+            mutableChild.value.apply {
+                it.path = path
+                it.lastUpdated = lastUpdated
+            }
         }
     }
 }
