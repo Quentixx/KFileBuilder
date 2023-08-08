@@ -13,11 +13,17 @@ import fr.quentixx.kfilebuilder.json.TemplateDirectory
 import fr.quentixx.kfilebuilder.json.TemplatesService
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreen
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreenManager
+import fr.quentixx.kfilebuilder.treeview.TreeViewBuilder
 
 @Composable
 fun CreateTemplateView(screenManager: TemplateScreenManager) {
     val templateName = remember { mutableStateOf("") }
     val templateDescription = remember { mutableStateOf("") }
+    val currentNode = remember {
+        mutableStateOf(
+            Node(System.getProperty("user.home"), true)
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -25,11 +31,10 @@ fun CreateTemplateView(screenManager: TemplateScreenManager) {
             .background(Color.Gray),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        CreateTopMenu(screenManager, templateName, templateDescription)
+        CreateTopMenu(screenManager, templateName, templateDescription, currentNode)
         Spacer(Modifier.height(16.dp))
 
-        TemplateBuilderView() // Show the Tree View
+        TreeViewBuilder(currentNode)
     }
 }
 
@@ -42,7 +47,8 @@ fun CreateTemplateView(screenManager: TemplateScreenManager) {
 private fun CreateTopMenu(
     screenManager: TemplateScreenManager,
     templateName: MutableState<String>,
-    templateDescription: MutableState<String>
+    templateDescription: MutableState<String>,
+    currentNode: MutableState<Node>
 ) {
     Spacer(Modifier.height(16.dp))
     Text("Créer une nouvelle template", color = Color.White)
@@ -66,7 +72,7 @@ private fun CreateTopMenu(
         ) {
             GoBackButton(screenManager)
             Spacer(Modifier.width(32.dp))
-            SaveTemplateButton(screenManager, templateName, templateDescription)
+            SaveTemplateButton(screenManager, templateName, templateDescription, currentNode)
         }
     }
 }
@@ -109,6 +115,7 @@ private fun SaveTemplateButton(
     screenManager: TemplateScreenManager,
     templateName: MutableState<String>,
     templateDescription: MutableState<String>,
+    currentNode: MutableState<Node>
 ) = Button(modifier = Modifier.setOnHoverHandCursorEnabled(), onClick = {
 
     templateName.value.apply {
@@ -116,6 +123,10 @@ private fun SaveTemplateButton(
             return@Button
         }
     }
+
+    val node = currentNode.value
+
+    println("The result node is $node")
 
     TemplatesService.save(
         TemplateDirectory(templateName.value, templateDescription.value, emptyList())

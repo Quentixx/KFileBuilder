@@ -23,12 +23,7 @@ import java.io.File
  * Shows a tree view builder.
  */
 @Composable
-fun TreeViewBuilder() {
-    val mutableNode = remember {
-        mutableStateOf(
-            Node(System.getProperty("user.home"), true)
-        )
-    }
+fun TreeViewBuilder(mutableNode: MutableState<Node>){
     val node = mutableNode.value
     val listState = rememberLazyListState()
 
@@ -52,7 +47,7 @@ fun TreeViewBuilder() {
 
         }
 
-        println("Box updated: $node")
+        // println("Box updated: $node")
     }
 }
 

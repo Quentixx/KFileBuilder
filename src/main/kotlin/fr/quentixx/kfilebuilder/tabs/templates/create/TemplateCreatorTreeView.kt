@@ -13,24 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
-import fr.quentixx.kfilebuilder.treeview.TreeViewBuilder
 import fr.quentixx.kfilebuilder.treeview.TreeViewSelectorWindow
 import java.io.File
-
-/**
- * This method shows the current template as editable tree view.
- */
-@Composable
-fun TemplateBuilderView() {
-    println("TemplateBuilderView")
-    val sourceDirPath = System.getProperty("user.home")
-    val sourceDir = File(sourceDirPath)
-    val sourceNode = mutableStateOf(Node(sourceDirPath, true))
-
-    // NodeView(rootNode)
-
-    TreeViewBuilder()
-}
 
 @Composable
 fun NodeView(node: MutableState<Node>) {
