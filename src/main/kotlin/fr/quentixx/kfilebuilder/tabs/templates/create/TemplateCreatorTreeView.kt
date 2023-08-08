@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
+import fr.quentixx.kfilebuilder.json.Node
 import fr.quentixx.kfilebuilder.treeview.TreeViewSelectorWindow
 import java.io.File
 
@@ -22,7 +23,6 @@ fun NodeView(node: MutableState<Node>) {
         Modifier.background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Row(
             Modifier.background(Color.Blue)
         ) {
@@ -31,12 +31,9 @@ fun NodeView(node: MutableState<Node>) {
 
         val listOfChildren = node.value.children.sortedByDescending { it.isDirectory }
         for (childNode in listOfChildren) {
-            println("\nChildNode Info: $childNode")
-
             val childState = remember { mutableStateOf(childNode) }
             NodeView(childState)
         }
-
     }
 }
 
@@ -155,6 +152,5 @@ private fun OpenTreeViewSelectorWindow(
         val end = System.currentTimeMillis()
 
         println("End of TreeViewSelector : Execution took : ${(end - start) / 1000}s")
-
     }
 }

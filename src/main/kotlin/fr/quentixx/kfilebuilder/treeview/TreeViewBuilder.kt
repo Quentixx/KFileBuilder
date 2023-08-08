@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.components.TemplateAddDirIcon
 import fr.quentixx.kfilebuilder.components.TemplateAddFileIcon
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
-import fr.quentixx.kfilebuilder.tabs.templates.create.Node
+import fr.quentixx.kfilebuilder.json.Node
 import java.io.File
 
 /**
