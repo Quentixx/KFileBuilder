@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
+import fr.quentixx.kfilebuilder.json.Node
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
 import fr.quentixx.kfilebuilder.json.TemplatesService
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreen
@@ -129,7 +130,7 @@ private fun SaveTemplateButton(
     println("The result node is $node")
 
     TemplatesService.save(
-        TemplateDirectory(templateName.value, templateDescription.value, emptyList())
+        TemplateDirectory(templateName.value, templateDescription.value, node)
     )
     screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
 }) {
