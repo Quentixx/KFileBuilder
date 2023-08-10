@@ -43,7 +43,23 @@ object TemplatesService {
     fun save(template: TemplateDirectory) {
         logger.info { "Saving template ${template.name}" }
         val existingTemplates = getAll()
-        val updatedTemplates = existingTemplates + template
+        val updatedTemplates = existingTemplates.let {
+
+            val existingTemplate = it.firstOrNull { it.name == template.name }
+            if (existingTemplate == null) {
+                println("Saving new template: ${template.name}")
+                (it + template)
+            } else {
+                println("Saving existing template: ${template.name}")
+                existingTemplate.apply {
+                    name = template.name
+                    description = template.description
+                    content = template.content
+                }
+                it
+            }
+
+        }
         saveAll(updatedTemplates)
     }
 

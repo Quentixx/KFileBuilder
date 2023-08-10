@@ -1,6 +1,7 @@
 package fr.quentixx.kfilebuilder.tabs.templates
 
 import androidx.compose.runtime.mutableStateOf
+import fr.quentixx.kfilebuilder.json.TemplateDirectory
 
 /**
  * Enum class representing different screens in Templates tab.
@@ -15,6 +16,8 @@ enum class TemplateScreen {
  * Class responsible for managing the current template screen.
  */
 class TemplateScreenManager {
+    var selectedTemplate: TemplateDirectory? = null
+
     // The current template screen state.
     val currentView = mutableStateOf(TemplateScreen.MAIN_VIEW)
 

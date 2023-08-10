@@ -1,7 +1,6 @@
 package fr.quentixx.kfilebuilder.tabs.templates
 
 import androidx.compose.runtime.*
-import fr.quentixx.kfilebuilder.json.TemplateDirectory
 import fr.quentixx.kfilebuilder.json.TemplatesService
 import mu.KotlinLogging
 import fr.quentixx.kfilebuilder.tabs.templates.create.CreateTemplateView
@@ -16,13 +15,12 @@ fun TemplatesTab() {
     when (screenManager.currentView.value) {
         TemplateScreen.MAIN_VIEW -> MainView(templates, screenManager)
         TemplateScreen.CREATE_TEMPLATE_VIEW -> CreateTemplateView(screenManager)
-        TemplateScreen.EDIT_TEMPLATE_VIEW -> EditTemplateView(screenManager, TODO())
+        TemplateScreen.EDIT_TEMPLATE_VIEW -> EditTemplateView(screenManager)
     }
 }
 
 
 @Composable
-fun EditTemplateView(screenManager: TemplateScreenManager, templateDirectory: TemplateDirectory) {
-    CreateTemplateView(screenManager, templateDirectory)
+fun EditTemplateView(screenManager: TemplateScreenManager) {
+    CreateTemplateView(screenManager, screenManager.selectedTemplate)
 }
-

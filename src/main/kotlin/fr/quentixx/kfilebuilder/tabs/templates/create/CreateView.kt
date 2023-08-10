@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import fr.quentixx.kfilebuilder.ext.isValidTemplateName
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import fr.quentixx.kfilebuilder.json.Node
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
@@ -122,18 +123,19 @@ private fun SaveTemplateButton(
     currentNode: MutableState<Node>
 ) = Button(modifier = Modifier.setOnHoverHandCursorEnabled(), onClick = {
 
-    templateName.value.apply {
-        if (isEmpty() || TemplatesService.isExists(this)) {
+    val nameValue = templateName.value
+
+    nameValue.apply {
+        if (!isValidTemplateName()) {
+            println("Return cause template name is invalid.")
             return@Button
         }
     }
 
-    val node = currentNode.value
-
-    println("The result node is $node")
-
+    val nodeValue = currentNode.value
+    println("Template saving process: ")
     TemplatesService.save(
-        TemplateDirectory(templateName.value, templateDescription.value, node)
+        TemplateDirectory(templateName.value, templateDescription.value, nodeValue)
     )
     screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
 }) {

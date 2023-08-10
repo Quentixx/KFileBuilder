@@ -110,7 +110,7 @@ fun TemplateLine(
         Spacer(modifier = Modifier.width(16.dp)) // Add horizontal spacing between text and buttons
 
         Row(modifier = Modifier.weight(1f)) {
-            EditTemplateIcon(screenManager)
+            EditTemplateIcon(screenManager, templateDirectory)
             DeleteTemplateIcon()
         }
     }
@@ -119,9 +119,11 @@ fun TemplateLine(
 
 @Composable
 fun EditTemplateIcon(
-    screenManager: TemplateScreenManager
+    screenManager: TemplateScreenManager,
+    templateDirectory: TemplateDirectory
 ) = Button(
     onClick = {
+        screenManager.selectedTemplate = templateDirectory
         screenManager.navigateTo(TemplateScreen.EDIT_TEMPLATE_VIEW)
     },
     modifier = Modifier

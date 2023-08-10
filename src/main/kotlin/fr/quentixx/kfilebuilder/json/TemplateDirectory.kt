@@ -7,7 +7,7 @@ import kotlinx.serialization.*
  */
 @Serializable
 data class TemplateDirectory(
-    val name: String,
-    val description: String = "",
-    val content: Node
+    var name: String,
+    var description: String = "",
+    var content: Node
 )
