@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import fr.quentixx.kfilebuilder.color.customGreen
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
 
@@ -157,7 +158,7 @@ fun BuildTemplateIcon(
     modifier = Modifier
         .size(100.dp, 35.dp)
         .setOnHoverHandCursorEnabled(),
-    colors = ButtonDefaults.buttonColors(Color(76, 128, 1))
+    colors = ButtonDefaults.buttonColors(customGreen)
 ) {
     Text("Générer", color = Color.White)
 }
