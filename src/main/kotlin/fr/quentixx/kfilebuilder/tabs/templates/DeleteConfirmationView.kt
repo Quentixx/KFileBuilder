@@ -15,6 +15,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
 import fr.quentixx.kfilebuilder.color.customGreen
+import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import fr.quentixx.kfilebuilder.json.TemplateStorageService
 
 @Composable
@@ -65,6 +66,7 @@ private fun ConfirmDeleteTemplateButton(
             TemplateStorageService.delete(screenManager.selectedTemplate!!.uuid)
             screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
         },
+        modifier = Modifier.setOnHoverHandCursorEnabled(),
         colors = ButtonDefaults.buttonColors(customGreen)
     ) {
         Text("Oui")
@@ -79,6 +81,7 @@ private fun UnconfirmDeleteTemplateButton(
         onClick = {
             screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
         },
+        modifier = Modifier.setOnHoverHandCursorEnabled(),
         colors = ButtonDefaults.buttonColors(Color.Red)
     ) {
         Text("Non")
