@@ -1,7 +1,7 @@
 package fr.quentixx.kfilebuilder.tabs.templates
 
 import androidx.compose.runtime.*
-import fr.quentixx.kfilebuilder.json.TemplatesService
+import fr.quentixx.kfilebuilder.json.TemplateStorageService
 import mu.KotlinLogging
 import fr.quentixx.kfilebuilder.tabs.templates.create.CreateTemplateView
 
@@ -9,7 +9,7 @@ private val logger = KotlinLogging.logger { }
 
 @Composable
 fun TemplatesTab() {
-    val templates = TemplatesService.getAll()
+    val templates = TemplateStorageService.getAll()
     val screenManager = remember { TemplateScreenManager() }
 
     when (screenManager.currentView.value) {

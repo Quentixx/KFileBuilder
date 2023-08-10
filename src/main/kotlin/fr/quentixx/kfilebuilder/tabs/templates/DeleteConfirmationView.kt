@@ -15,7 +15,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
 import fr.quentixx.kfilebuilder.color.customGreen
-import fr.quentixx.kfilebuilder.json.TemplatesService
+import fr.quentixx.kfilebuilder.json.TemplateStorageService
 
 @Composable
 fun DeleteTemplateView(screenManager: TemplateScreenManager) {
@@ -62,7 +62,7 @@ private fun ConfirmDeleteTemplateButton(
 ) {
     Button(
         onClick = {
-            TemplatesService.delete(screenManager.selectedTemplate!!)
+            TemplateStorageService.delete(screenManager.selectedTemplate!!.uuid)
             screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
         },
         colors = ButtonDefaults.buttonColors(customGreen)

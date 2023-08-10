@@ -5,12 +5,12 @@ import mu.KotlinLogging
 import java.io.File
 import com.fasterxml.jackson.module.kotlin.readValue
 
-private val logger = KotlinLogging.logger { }
+private val logger = KotlinLogging.logger {}
 
 /**
  * Represents the service to store and retrieve templates configuration data.
  */
-object TemplatesService {
+object TemplateStorageService {
 
     private val mapper = jacksonObjectMapper()
     private val file = File("templates.json")
@@ -36,16 +36,27 @@ object TemplatesService {
     }
 
     /**
-     * Saves a template to the storage.
+     * Saves all templates to the storage.
      *
-     * @param template The [TemplateDirectory] object to be saved.
+     * @param templates The list of [TemplateDirectory] objects to be saved.
+     */
+    private fun saveAll(templates: List<TemplateDirectory>) {
+        logger.info { "Saving all templates" }
+        val jsonString = mapper.writeValueAsString(templates)
+        file.writeText(jsonString)
+    }
+
+    /**
+     * Saves all templates to the storage.
+     *
+     * @param templates The list of [TemplateDirectory] objects to be saved.
      */
     fun save(template: TemplateDirectory) {
         logger.info { "Saving template ${template.name}" }
         val existingTemplates = getAll()
         val updatedTemplates = existingTemplates.let {
 
-            val existingTemplate = it.firstOrNull { it.name == template.name }
+            val existingTemplate = it.firstOrNull { it.uuid == template.uuid }
             if (existingTemplate == null) {
                 println("Saving new template: ${template.name}")
                 (it + template)
@@ -63,33 +74,17 @@ object TemplatesService {
         saveAll(updatedTemplates)
     }
 
-    /**
-     * Saves all templates to the storage.
-     *
-     * @param templates The list of [TemplateDirectory] objects to be saved.
-     */
-    private fun saveAll(templates: List<TemplateDirectory>) {
-        logger.info { "Saving all templates" }
-        val jsonString = mapper.writeValueAsString(templates)
-        file.writeText(jsonString)
-    }
-
-    /**
-     * Checks if a template with the specified name exists in the storage.
-     * @param templateName The name of the template to check.
-     * @return True if the template exists, False otherwise.
-     */
-    fun isExists(templateName: String): Boolean {
-        return getAll().any { it.name == templateName }
+    fun isExists(templateUuid: String): Boolean {
+        return getAll().any { it.uuid == templateUuid }
     }
 
     /**
      * Deletes the specified template from the storage.
-     * @param template The template to be deleted.
+     * @param templateUuid The UUID of the template to be deleted.
      */
-    fun delete(template: TemplateDirectory) {
-        logger.info { "Deleting template ${template.name}" }
-        val updatedTemplates = getAll().filter { it.name != template.name }
+    fun delete(templateUuid: String) {
+        logger.info { "Deleting template with UUID $templateUuid" }
+        val updatedTemplates = getAll().filter { it.uuid != templateUuid }
         saveAll(updatedTemplates)
     }
 }

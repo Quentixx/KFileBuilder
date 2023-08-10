@@ -10,9 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.ext.isValidTemplateName
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
-import fr.quentixx.kfilebuilder.json.Node
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
-import fr.quentixx.kfilebuilder.json.TemplatesService
+import fr.quentixx.kfilebuilder.json.TemplateStorageService
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreen
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreenManager
 import fr.quentixx.kfilebuilder.treeview.TreeViewBuilder
@@ -22,13 +21,10 @@ fun CreateTemplateView(
     screenManager: TemplateScreenManager,
     defaultTemplateDirectory: TemplateDirectory? = null,
 ) {
-    val templateName = remember { mutableStateOf(defaultTemplateDirectory?.name ?: "") }
-    val templateDescription = remember { mutableStateOf(defaultTemplateDirectory?.description ?: "") }
-    val currentNode = remember {
-        mutableStateOf(
-            defaultTemplateDirectory?.content ?: Node(System.getProperty("user.home"), true)
-        )
+    val mutableTemplate = remember {
+        mutableStateOf(defaultTemplateDirectory ?: TemplateDirectory())
     }
+    val mutableNode = remember { mutableStateOf(mutableTemplate.value.content) }
 
     Column(
         modifier = Modifier
@@ -36,24 +32,21 @@ fun CreateTemplateView(
             .background(Color.Gray),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CreateTopMenu(screenManager, templateName, templateDescription, currentNode)
+        CreateTopMenu(screenManager, mutableTemplate)
         Spacer(Modifier.height(16.dp))
 
-        TreeViewBuilder(currentNode)
+        TreeViewBuilder(mutableNode)
     }
 }
 
 /**
  * Represents the top menu of the template creation screen.
- * @param templateName the name of the template in a [MutableState].
- * @param templateDescription the description of the template in a [MutableState].
+ * @param mutableTemplate the template in a [MutableState].
  */
 @Composable
 private fun CreateTopMenu(
     screenManager: TemplateScreenManager,
-    templateName: MutableState<String>,
-    templateDescription: MutableState<String>,
-    currentNode: MutableState<Node>
+    mutableTemplate: MutableState<TemplateDirectory>
 ) {
     Spacer(Modifier.height(16.dp))
     Text("Créer une nouvelle template", color = Color.White)
@@ -61,10 +54,10 @@ private fun CreateTopMenu(
     Row {
         Column {
             Spacer(Modifier.height(16.dp))
-            TemplateNameField(screenManager, templateName)
+            TemplateNameField(mutableTemplate)
 
             Spacer(Modifier.height(16.dp))
-            TemplateDescriptionField(templateDescription)
+            TemplateDescriptionField(mutableTemplate)
         }
 
         Spacer(Modifier.width(45.dp))
@@ -77,19 +70,18 @@ private fun CreateTopMenu(
         ) {
             GoBackButton(screenManager)
             Spacer(Modifier.width(32.dp))
-            SaveTemplateButton(screenManager, templateName, templateDescription, currentNode)
+            SaveTemplateButton(screenManager, mutableTemplate.value)//templateName, templateDescription, currentNode)
         }
     }
 }
 
 @Composable
 private fun TemplateNameField(
-    screenManager: TemplateScreenManager,
-    templateName: MutableState<String>
+    mutableTemplate: MutableState<TemplateDirectory>
 ) = TextField(
-    value = templateName.value,
+    value = mutableTemplate.value.name,
     onValueChange = {
-        templateName.value = it
+        mutableTemplate.value = mutableTemplate.value.copy(name = it)
     },
     label = { Text("Nom de la template") },
     colors = TextFieldDefaults.textFieldColors(
@@ -98,9 +90,11 @@ private fun TemplateNameField(
 )
 
 @Composable
-private fun TemplateDescriptionField(templateDescription: MutableState<String>) = TextField(
-    value = templateDescription.value,
-    onValueChange = { newValue: String -> templateDescription.value = newValue },
+private fun TemplateDescriptionField(
+    mutableTemplate: MutableState<TemplateDirectory>
+) = TextField(
+    value = mutableTemplate.value.description,
+    onValueChange = { mutableTemplate.value = mutableTemplate.value.copy(description = it) },
     label = { Text("Description de la template (facultatif)") },
     colors = TextFieldDefaults.textFieldColors(
         backgroundColor = Color.White
@@ -118,24 +112,19 @@ private fun GoBackButton(screenManager: TemplateScreenManager) =
 @Composable
 private fun SaveTemplateButton(
     screenManager: TemplateScreenManager,
-    templateName: MutableState<String>,
-    templateDescription: MutableState<String>,
-    currentNode: MutableState<Node>
+    template: TemplateDirectory
 ) = Button(modifier = Modifier.setOnHoverHandCursorEnabled(), onClick = {
 
-    val nameValue = templateName.value
-
-    nameValue.apply {
+    template.name.apply {
         if (!isValidTemplateName()) {
             println("Return cause template name is invalid.")
             return@Button
         }
     }
 
-    val nodeValue = currentNode.value
     println("Template saving process: ")
-    TemplatesService.save(
-        TemplateDirectory(templateName.value, templateDescription.value, nodeValue)
+    TemplateStorageService.save(
+        template
     )
     screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
 }) {
