@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import fr.quentixx.kfilebuilder.color.customGreen
 import fr.quentixx.kfilebuilder.ext.isValidTemplateName
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
@@ -113,20 +114,23 @@ private fun GoBackButton(screenManager: TemplateScreenManager) =
 private fun SaveTemplateButton(
     screenManager: TemplateScreenManager,
     template: TemplateDirectory
-) = Button(modifier = Modifier.setOnHoverHandCursorEnabled(), onClick = {
+) = Button(
+    modifier = Modifier.setOnHoverHandCursorEnabled(),
+    colors = ButtonDefaults.buttonColors(customGreen),
+    onClick = {
 
-    template.name.apply {
-        if (!isValidTemplateName()) {
-            println("Return cause template name is invalid.")
-            return@Button
+        template.name.apply {
+            if (!isValidTemplateName()) {
+                println("Return cause template name is invalid.")
+                return@Button
+            }
         }
-    }
 
-    println("Template saving process: ")
-    TemplateStorageService.save(
-        template
-    )
-    screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
-}) {
-    Text("Enregistrer")
+        println("Template saving process: ")
+        TemplateStorageService.save(
+            template
+        )
+        screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
+    }) {
+    Text("Enregistrer", color = Color.White)
 }
