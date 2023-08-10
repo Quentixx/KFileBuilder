@@ -5,4 +5,4 @@ import fr.quentixx.kfilebuilder.json.TemplateDirectory
 /**
  * Knows if the current string value is valid to be a name for a [TemplateDirectory]
  */
-fun String.isValidTemplateName() = isNotEmpty()
+fun String.isValidTemplateName() = isNotEmpty() && length <= 16
