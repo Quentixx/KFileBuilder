@@ -16,7 +16,8 @@ fun TemplatesTab() {
         TemplateScreen.MAIN_VIEW -> MainView(templates, screenManager)
         TemplateScreen.CREATE_TEMPLATE_VIEW -> CreateTemplateView(screenManager)
         TemplateScreen.EDIT_TEMPLATE_VIEW -> EditTemplateView(screenManager)
-        TemplateScreen.BUILD_TEMPLATE_VIEW -> TODO()
+        TemplateScreen.DELETE_TEMPLATE_CONFIRMATION -> DeleteTemplateView(screenManager)
+        TemplateScreen.BUILD_TEMPLATE_VIEW -> TODO("not implemented yet")
     }
 }
 

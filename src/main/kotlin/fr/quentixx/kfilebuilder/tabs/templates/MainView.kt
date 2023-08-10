@@ -135,7 +135,8 @@ fun DeleteTemplateIcon(
 ) =
     IconButton(
         onClick = {
-            // TODO: Delete template confirmation redirection
+            screenManager.selectedTemplate = templateDirectory
+            screenManager.navigateTo(TemplateScreen.DELETE_TEMPLATE_CONFIRMATION)
         },
         modifier = Modifier
             .size(45.dp)
