@@ -1,4 +1,4 @@
-package fr.quentixx.kfilebuilder.tabs.templates
+package fr.quentixx.kfilebuilder.tabs.templates.commons
 
 import androidx.compose.runtime.mutableStateOf
 import fr.quentixx.kfilebuilder.json.TemplateDirectory

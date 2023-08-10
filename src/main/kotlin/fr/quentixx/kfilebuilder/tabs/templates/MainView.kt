@@ -19,6 +19,8 @@ import fr.quentixx.kfilebuilder.color.customGreen
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import fr.quentixx.kfilebuilder.json.Node
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
+import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreen
+import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreenManager
 import java.awt.Desktop
 import java.io.File
 import java.io.IOException

@@ -1,9 +1,11 @@
-package fr.quentixx.kfilebuilder.tabs.templates
+package fr.quentixx.kfilebuilder.tabs.templates.commons
 
 import androidx.compose.runtime.*
 import fr.quentixx.kfilebuilder.json.TemplateStorageService
+import fr.quentixx.kfilebuilder.tabs.templates.CreateTemplateView
+import fr.quentixx.kfilebuilder.tabs.templates.DeleteTemplateView
+import fr.quentixx.kfilebuilder.tabs.templates.MainView
 import mu.KotlinLogging
-import fr.quentixx.kfilebuilder.tabs.templates.create.CreateTemplateView
 
 private val logger = KotlinLogging.logger { }
 

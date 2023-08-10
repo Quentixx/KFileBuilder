@@ -17,6 +17,8 @@ import androidx.compose.ui.window.rememberWindowState
 import fr.quentixx.kfilebuilder.color.customGreen
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import fr.quentixx.kfilebuilder.json.TemplateStorageService
+import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreen
+import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreenManager
 
 @Composable
 fun DeleteTemplateView(screenManager: TemplateScreenManager) {

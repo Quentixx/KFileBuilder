@@ -13,8 +13,8 @@ import fr.quentixx.kfilebuilder.ext.isValidTemplateName
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
 import fr.quentixx.kfilebuilder.json.TemplateStorageService
-import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreen
-import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreenManager
+import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreen
+import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreenManager
 import fr.quentixx.kfilebuilder.treeview.TreeViewBuilder
 
 @Composable
