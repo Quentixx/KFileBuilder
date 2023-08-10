@@ -49,7 +49,10 @@ fun MainView(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(templates) { template ->
-                        TemplateLine(template.name) // Show the template line with [name, edit button, delete button]
+                        TemplateLine(
+                            screenManager,
+                            template
+                        ) // Show the template line with [name, edit button, delete button]
                         Spacer(Modifier.height(16.dp))
                     }
                 }
@@ -81,10 +84,11 @@ fun TopMenu(screenManager: TemplateScreenManager) = Row(
 }
 
 
-
-
 @Composable
-fun TemplateLine(template: String) {
+fun TemplateLine(
+    screenManager: TemplateScreenManager,
+    templateDirectory: TemplateDirectory
+) {
     Row(
         Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -97,7 +101,7 @@ fun TemplateLine(template: String) {
             contentAlignment = Alignment.CenterEnd
         ) {
             Text(
-                text = template,
+                text = templateDirectory.name,
                 color = Color.LightGray,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
@@ -106,7 +110,7 @@ fun TemplateLine(template: String) {
         Spacer(modifier = Modifier.width(16.dp)) // Add horizontal spacing between text and buttons
 
         Row(modifier = Modifier.weight(1f)) {
-            EditTemplateIcon()
+            EditTemplateIcon(screenManager)
             DeleteTemplateIcon()
         }
     }
@@ -114,9 +118,11 @@ fun TemplateLine(template: String) {
 
 
 @Composable
-fun EditTemplateIcon() = Button(
+fun EditTemplateIcon(
+    screenManager: TemplateScreenManager
+) = Button(
     onClick = {
-        // TODO: Edit template redirection
+        screenManager.navigateTo(TemplateScreen.EDIT_TEMPLATE_VIEW)
     },
     modifier = Modifier
         .size(100.dp, 35.dp)

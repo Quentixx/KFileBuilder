@@ -17,12 +17,15 @@ import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreenManager
 import fr.quentixx.kfilebuilder.treeview.TreeViewBuilder
 
 @Composable
-fun CreateTemplateView(screenManager: TemplateScreenManager) {
-    val templateName = remember { mutableStateOf("") }
-    val templateDescription = remember { mutableStateOf("") }
+fun CreateTemplateView(
+    screenManager: TemplateScreenManager,
+    defaultTemplateDirectory: TemplateDirectory? = null,
+) {
+    val templateName = remember { mutableStateOf(defaultTemplateDirectory?.name ?: "") }
+    val templateDescription = remember { mutableStateOf(defaultTemplateDirectory?.description ?: "") }
     val currentNode = remember {
         mutableStateOf(
-            Node(System.getProperty("user.home"), true)
+            defaultTemplateDirectory?.content ?: Node(System.getProperty("user.home"), true)
         )
     }
 
