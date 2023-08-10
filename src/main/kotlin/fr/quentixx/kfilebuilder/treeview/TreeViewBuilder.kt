@@ -24,7 +24,6 @@ import java.io.File
  */
 @Composable
 fun TreeViewBuilder(mutableNode: MutableState<Node>){
-    val node = mutableNode.value
     val listState = rememberLazyListState()
 
     Box(
@@ -43,11 +42,7 @@ fun TreeViewBuilder(mutableNode: MutableState<Node>){
                         DirectoryNodeControls(it)
                 }
             }
-
-
         }
-
-        // println("Box updated: $node")
     }
 }
 
