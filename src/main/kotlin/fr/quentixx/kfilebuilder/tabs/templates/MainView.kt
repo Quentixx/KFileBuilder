@@ -6,17 +6,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
@@ -94,28 +91,25 @@ fun TemplateLine(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .padding(16.dp),
-            contentAlignment = Alignment.CenterEnd
+        Row(
+            Modifier.requiredWidth(450.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
         ) {
             Text(
                 text = templateDirectory.name,
                 color = Color.LightGray,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                textAlign = TextAlign.End
             )
-        }
-        Spacer(modifier = Modifier.width(16.dp)) // Add horizontal spacing between text and buttons
-
-        Row(modifier = Modifier.weight(1f)) {
+            Spacer(Modifier.width(32.dp))
             EditTemplateIcon(screenManager, templateDirectory)
-            DeleteTemplateIcon()
+            Spacer(Modifier.width(16.dp))
+            BuildTemplateIcon(screenManager, templateDirectory)
+            Spacer(Modifier.width(4.dp).height(1.dp))
+            DeleteTemplateIcon(screenManager, templateDirectory)
         }
     }
 }
-
 
 @Composable
 fun EditTemplateIcon(
@@ -134,13 +128,16 @@ fun EditTemplateIcon(
 }
 
 @Composable
-fun DeleteTemplateIcon() =
+fun DeleteTemplateIcon(
+    screenManager: TemplateScreenManager,
+    templateDirectory: TemplateDirectory
+) =
     IconButton(
         onClick = {
             // TODO: Delete template confirmation redirection
         },
         modifier = Modifier
-            .size(50.dp)
+            .size(45.dp)
             .setOnHoverHandCursorEnabled()
     ) {
         Icon(
@@ -149,3 +146,18 @@ fun DeleteTemplateIcon() =
             tint = Color.Red
         )
     }
+
+@Composable
+fun BuildTemplateIcon(
+    screenManager: TemplateScreenManager,
+    templateDirectory: TemplateDirectory
+) = Button(
+    onClick = {
+    },
+    modifier = Modifier
+        .size(100.dp, 35.dp)
+        .setOnHoverHandCursorEnabled(),
+    colors = ButtonDefaults.buttonColors(Color(76, 128, 1))
+) {
+    Text("Générer", color = Color.White)
+}
