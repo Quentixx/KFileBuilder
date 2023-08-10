@@ -38,6 +38,8 @@ fun CreateTemplateView(
 
         TreeViewBuilder(mutableNode)
     }
+
+    mutableTemplate.value = mutableTemplate.value.copy(content = mutableNode.value)
 }
 
 /**
