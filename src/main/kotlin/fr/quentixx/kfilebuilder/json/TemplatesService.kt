@@ -82,4 +82,14 @@ object TemplatesService {
     fun isExists(templateName: String): Boolean {
         return getAll().any { it.name == templateName }
     }
+
+    /**
+     * Deletes the specified template from the storage.
+     * @param template The template to be deleted.
+     */
+    fun delete(template: TemplateDirectory) {
+        logger.info { "Deleting template ${template.name}" }
+        val updatedTemplates = getAll().filter { it.name != template.name }
+        saveAll(updatedTemplates)
+    }
 }
