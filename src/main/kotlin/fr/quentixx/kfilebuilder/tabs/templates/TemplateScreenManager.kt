@@ -9,7 +9,8 @@ import fr.quentixx.kfilebuilder.json.TemplateDirectory
 enum class TemplateScreen {
     MAIN_VIEW,
     CREATE_TEMPLATE_VIEW,
-    EDIT_TEMPLATE_VIEW
+    EDIT_TEMPLATE_VIEW,
+    BUILD_TEMPLATE_VIEW
 }
 
 /**

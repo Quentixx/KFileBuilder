@@ -16,6 +16,7 @@ fun TemplatesTab() {
         TemplateScreen.MAIN_VIEW -> MainView(templates, screenManager)
         TemplateScreen.CREATE_TEMPLATE_VIEW -> CreateTemplateView(screenManager)
         TemplateScreen.EDIT_TEMPLATE_VIEW -> EditTemplateView(screenManager)
+        TemplateScreen.BUILD_TEMPLATE_VIEW -> TODO()
     }
 }
 
