@@ -74,8 +74,12 @@ object TemplateStorageService {
         saveAll(updatedTemplates)
     }
 
-    fun isExists(templateUuid: String): Boolean {
+    fun isExistsByUuid(templateUuid: String): Boolean {
         return getAll().any { it.uuid == templateUuid }
+    }
+
+    fun isExistsByName(templateName: String): Boolean {
+        return getAll().any { it.name == templateName }
     }
 
     /**

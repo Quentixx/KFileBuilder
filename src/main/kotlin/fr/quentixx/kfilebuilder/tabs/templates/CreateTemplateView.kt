@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.color.customGreen
 import fr.quentixx.kfilebuilder.ext.isValidTemplateName
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
+import fr.quentixx.kfilebuilder.json.Node
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
 import fr.quentixx.kfilebuilder.json.TemplateStorageService
 import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreen
@@ -121,18 +122,44 @@ private fun SaveTemplateButton(
     colors = ButtonDefaults.buttonColors(customGreen),
     onClick = {
 
-        template.name.apply {
-            if (!isValidTemplateName()) {
-                println("Return cause template name is invalid.")
-                return@Button
-            }
+        if (!isValidTemplate(template)) {
+            return@Button
         }
 
-        println("Template saving process: ")
-        TemplateStorageService.save(
-            template
-        )
+        TemplateStorageService.save(template)
         screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
     }) {
     Text("Enregistrer", color = Color.White)
+}
+
+/**
+ * Know if a template is ready for use in storage.
+ * A template is "valid" when its name is not empty
+ * and contains no more than 16 characters,
+ * it must not contain duplicates of the file names.
+ *
+ * @param template The template to check for validity.
+ *
+ * @return true if the template is ready for use in storage, false otherwise.
+ */
+private fun isValidTemplate(template: TemplateDirectory): Boolean {
+    val uuidExists = TemplateStorageService.isExistsByUuid(template.uuid)
+    val nameExists = TemplateStorageService.isExistsByName(template.name)
+
+    return !(!template.name.isValidTemplateName()
+            || isNodeContainsDuplicates(template.content)
+            || (!uuidExists && nameExists))
+}
+
+private fun isNodeContainsDuplicates(node: Node): Boolean {
+    val childPaths = mutableSetOf<String>()
+    node.children.forEach { childNode ->
+        if (childPaths.contains(childNode.path))
+            return true
+        childPaths.add(childNode.path)
+
+        if (isNodeContainsDuplicates(childNode))
+            return true
+    }
+    return false
 }
