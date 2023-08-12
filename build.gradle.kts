@@ -31,6 +31,12 @@ dependencies {
 
 }
 
+tasks {
+    compileKotlin {
+        java.targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
 compose.desktop {
     application {
         mainClass = "MainKt"
