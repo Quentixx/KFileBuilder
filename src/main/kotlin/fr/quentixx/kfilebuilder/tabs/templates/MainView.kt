@@ -17,13 +17,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.color.customGreen
 import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
-import fr.quentixx.kfilebuilder.json.Node
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
 import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreen
 import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreenManager
-import java.awt.Desktop
-import java.io.File
-import java.io.IOException
 
 /**
  * The main view of templates. All templates are listed here, with the name of the template and buttons to edit or delete it.
@@ -161,13 +157,8 @@ fun BuildTemplateIcon(
     templateDirectory: TemplateDirectory
 ) = Button(
     onClick = {
-        val file = buildNodeAsFiles(templateDirectory.content)
-
-        try {
-            Desktop.getDesktop().open(file)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        screenManager.selectedTemplate = templateDirectory
+        screenManager.navigateTo(TemplateScreen.GENERATE_TEMPLATE_VIEW)
     },
     modifier = Modifier
         .size(100.dp, 35.dp)
@@ -175,24 +166,4 @@ fun BuildTemplateIcon(
     colors = ButtonDefaults.buttonColors(customGreen)
 ) {
     Text("Générer", color = Color.White)
-}
-
-private fun buildNodeAsFiles(node: Node, sourcePath: String = ""): File {
-    val path = "$sourcePath${node.path}"
-        .replace("{", "")
-        .replace("}", "")
-    val file = File(path)
-    if (!file.exists()) {
-        if (node.isDirectory) {
-            file.mkdirs()
-        } else {
-            file.createNewFile()
-        }
-    }
-
-    node.children.forEach {
-        buildNodeAsFiles(it, "$path\\")
-    }
-
-    return file
 }
