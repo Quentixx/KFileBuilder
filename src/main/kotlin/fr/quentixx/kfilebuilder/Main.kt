@@ -54,24 +54,15 @@ fun App() {
         Box(modifier = Modifier.fillMaxSize().background(Color.DarkGray)) {
             Column {
                 TabRow(selectedTabIndex = selectedTab) {
-                    Tab(
-                        text = { Text("Configuration") },
-                        selected = selectedTab == 0,
-                        onClick = { selectedTab = 0 },
-                        modifier = Modifier.setOnHoverHandCursorEnabled()
-                    )
-                    Tab(
-                        text = { Text("Templates") },
-                        selected = selectedTab == 1,
-                        onClick = { selectedTab = 1 },
-                        modifier = Modifier.setOnHoverHandCursorEnabled()
-                    )
-                    Tab(
-                        text = { Text("Info") },
-                        selected = selectedTab == 2,
-                        onClick = { selectedTab = 2 },
-                        modifier = Modifier.setOnHoverHandCursorEnabled()
-                    )
+                    val tabs = listOf("Templates", "Configuration", "Info")
+                    tabs.forEachIndexed { index, tabName ->
+                        Tab(
+                            text = { Text(tabName) },
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            modifier = Modifier.setOnHoverHandCursorEnabled()
+                        )
+                    }
                 }
 
                 when (selectedTab) {
