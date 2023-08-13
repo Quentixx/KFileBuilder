@@ -66,8 +66,8 @@ fun App() {
                 }
 
                 when (selectedTab) {
-                    0 -> ConfigurationTab()
-                    1 -> TemplatesTab()
+                    0 -> TemplatesTab()
+                    1 -> ConfigurationTab()
                     2 -> InfoTab()
                 }
             }
