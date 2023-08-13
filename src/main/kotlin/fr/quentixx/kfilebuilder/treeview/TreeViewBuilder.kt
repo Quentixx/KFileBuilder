@@ -5,7 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +27,7 @@ import java.io.File
  * Shows a tree view builder.
  */
 @Composable
-fun TreeViewBuilder(mutableNode: MutableState<Node>){
+fun TreeViewBuilder(mutableNode: MutableState<Node>) {
     val listState = rememberLazyListState()
 
     Box(
@@ -38,32 +42,44 @@ fun TreeViewBuilder(mutableNode: MutableState<Node>){
             item { SourceNodeLine(mutableNode) }
             item {
                 NodeList(mutableNode) {
-                    if (it.value.isDirectory)
-                        DirectoryNodeControls(it)
+                    it.value.apply {
+                        if (hovered) {
+                            if (node.value.isDirectory) {
+                                DirectoryNodeControls(node)
+                                Spacer(Modifier.width(32.dp))
+                            }
+                            DeleteNodeButton(it)
+                        }
+                    }
                 }
             }
         }
     }
 }
 
+/**
+ * Represents first line that shows the parent node of the structure.
+ */
 @Composable
 private fun SourceNodeLine(mutableNode: MutableState<Node>) {
     Row {
-        RenderNodeElementRow(mutableNode, true) {
+        RenderNodeElement(mutableNode, true) {
             Spacer(Modifier.width(32.dp))
-            SelectNodeSourceButton(it)
-            DirectoryNodeControls(it)
+            it.value.apply {
+                SelectNodeSourceButton(node)
+                DirectoryNodeControls(node)
+            }
         }
     }
 }
 
 @Composable
-fun DirectoryNodeControls(mutableNode: MutableState<Node>) {
+fun DirectoryNodeControls(node: MutableState<Node>) {
     Spacer(Modifier.width(32.dp))
 
     TemplateAddDirIcon(
         onClick = {
-            mutableNode.value = mutableNode.value.copy(
+            node.value = node.value.copy(
                 lastUpdated = System.currentTimeMillis()
             ).apply {
                 children.add(
@@ -77,7 +93,7 @@ fun DirectoryNodeControls(mutableNode: MutableState<Node>) {
 
     TemplateAddFileIcon(
         onClick = {
-            mutableNode.value = mutableNode.value.copy(
+            node.value = node.value.copy(
                 lastUpdated = System.currentTimeMillis()
             ).apply {
                 children.add(
@@ -86,6 +102,24 @@ fun DirectoryNodeControls(mutableNode: MutableState<Node>) {
             }
         }
     )
+}
+
+@Composable
+private fun DeleteNodeButton(nodeRow: MutableState<NodeRowData>) {
+    IconButton(
+        onClick = {
+            // TODO: Delete the node from parent children
+        },
+        modifier = Modifier
+            .size(18.dp)
+            .setOnHoverHandCursorEnabled()
+    ) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = "Supprimer",
+            tint = Color.Red
+        )
+    }
 }
 
 @Composable

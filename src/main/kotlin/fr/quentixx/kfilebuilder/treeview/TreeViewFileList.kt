@@ -2,6 +2,9 @@ package fr.quentixx.kfilebuilder.treeview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -45,13 +48,15 @@ fun FileList(
 fun NodeList(
     mutableNode: MutableState<Node>,
     paddingSave: Dp = 0.dp,
-    nodeRowConsumer: @Composable NodeRowConsumer
+    nodeRowScope: @Composable NodeRowScope
 ) {
     val node = mutableNode.value
+
     Column {
         node.children.forEach {
             val mutableChild = remember { mutableStateOf(it) }
-            NodeRow(mutableChild, paddingSave, nodeRowConsumer)
+
+            NodeRow(mutableChild, paddingSave, nodeRowScope)
 
             // Update the current children in the loop with the new children information
             mutableChild.value.apply {
@@ -123,16 +128,21 @@ fun FileRow(
     }
 }
 
-fun interface NodeRowConsumer {
+data class NodeRowData(
+    val node: MutableState<Node>,
+    val hovered: Boolean = false,
+)
+
+fun interface NodeRowScope {
     @Composable
-    fun consume(node: MutableState<Node>)
+    fun consume(data: MutableState<NodeRowData>)
 }
 
 @Composable
 fun NodeRow(
     mutableNode: MutableState<Node>,
     paddingSave: Dp = 0.dp,
-    nodeRowConsumer: @Composable NodeRowConsumer
+    nodeRowConsumer: @Composable NodeRowScope
 ) {
     var expanded by remember { mutableStateOf(false) }
     val padding = paddingSave + 16.dp
@@ -140,16 +150,25 @@ fun NodeRow(
     val isDir = node.isDirectory
     val isEmptyDir = isDir && node.children.isEmpty()
 
+    val interactionSource = remember { MutableInteractionSource() }
+    val isHovered = interactionSource.collectIsHoveredAsState().value
+
+    val data = remember { mutableStateOf(NodeRowData(mutableNode, isHovered)) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = padding)
             .clickable {
                 if (!isEmptyDir) expanded = !expanded
-            },
+            }
+            .hoverable(interactionSource),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RenderNodeElementRow(mutableNode, expanded, nodeRowConsumer)
+
+        data.value = data.value.copy(hovered = isHovered)
+
+        RenderNodeElement(mutableNode, expanded, data, nodeRowConsumer)
     }
 
     if (expanded && node.isDirectory) {
@@ -158,10 +177,11 @@ fun NodeRow(
 }
 
 @Composable
-fun RenderNodeElementRow(
+fun RenderNodeElement(
     mutableNode: MutableState<Node>,
     expanded: Boolean,
-    nodeRowConsumer: @Composable NodeRowConsumer
+    data: MutableState<NodeRowData> = mutableStateOf(NodeRowData(mutableNode, false)),
+    nodeRowConsumer: @Composable NodeRowScope
 ) {
     val node = mutableNode.value
     var spacingSize = 8.dp
@@ -183,12 +203,9 @@ fun RenderNodeElementRow(
     }
 
     Spacer(Modifier.width(8.dp))
-    /* Text(
-         node.path,
-     )*/
     EditableHighlightedText(mutableNode)
 
-    nodeRowConsumer.consume(mutableNode)
+    nodeRowConsumer.consume(data)
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
