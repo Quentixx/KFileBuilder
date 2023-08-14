@@ -60,56 +60,34 @@ fun GenericConfirmWindow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            GenericConfirmButton {
+            GenericButton("Retour", Color.Red) { onBack.invoke() }
+            Spacer(Modifier.width(32.dp))
+            GenericButton("Confirmer", customGreen) {
                 onConfirm.invoke()
                 onBack.invoke()
             }
-            Spacer(Modifier.width(32.dp))
-            GenericUnconfirmButton { onBack.invoke() }
         }
     }
 }
 
 /**
- * Generic customizable button that's represents a confirm button.
- * The color of this button is [customGreen].
- * @param buttonText The text to display on the button.
+ * Generic customizable button.
+ * @param label The text to display on the button.
+ * @param color The color of the button.
+ * @param labelColor The color of the label on the button.
  * @param clickEvent The function called to handle action after click.
  */
 @Composable
-fun GenericConfirmButton(
-    buttonText: String = "Confirm",
+fun GenericButton(
+    label: String,
+    color: Color? = null,
+    labelColor: Color = Color.White,
     clickEvent: () -> Unit
-) {
-    Button(
-        onClick = {
-            clickEvent.invoke()
-        },
-        modifier = Modifier.setOnHoverHandCursorEnabled(),
-        colors = ButtonDefaults.buttonColors(customGreen)
-    ) {
-        Text(buttonText)
-    }
-}
-
-/**
- * Generic customizable button that's represents an unconfirmed button.
- * The color of this button is [Color.Red].
- * @param buttonText The text to display on the button.
- * @param clickEvent The function called to handle action after click.
- */
-@Composable
-fun GenericUnconfirmButton(
-    buttonText: String = "Cancel",
-    clickEvent: () -> Unit
-) {
-    Button(
-        onClick = {
-            clickEvent.invoke()
-        },
-        modifier = Modifier.setOnHoverHandCursorEnabled(),
-        colors = ButtonDefaults.buttonColors(Color.Red)
-    ) {
-        Text(buttonText)
-    }
-}
+) = Button(
+    onClick = { clickEvent.invoke() },
+    modifier = Modifier.setOnHoverHandCursorEnabled(),
+    colors = if (color == null)
+        ButtonDefaults.buttonColors()
+    else
+        ButtonDefaults.buttonColors(color)
+) { Text(label, color = labelColor) }
