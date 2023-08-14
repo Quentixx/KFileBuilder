@@ -1,4 +1,4 @@
-package fr.quentixx.kfilebuilder.tabs.templates
+package fr.quentixx.kfilebuilder.tabs.templates.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,13 +18,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import fr.quentixx.kfilebuilder.components.GenericConfirmButton
+import fr.quentixx.kfilebuilder.color.customGreen
 import fr.quentixx.kfilebuilder.components.GenericConfirmWindow
-import fr.quentixx.kfilebuilder.components.GenericUnconfirmButton
+import fr.quentixx.kfilebuilder.components.GenericButton
 import fr.quentixx.kfilebuilder.json.Node
 import fr.quentixx.kfilebuilder.json.TemplateDirectory
-import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreen
-import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplateScreenManager
+import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreen
+import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreenManager
 import java.awt.Desktop
 import java.io.File
 import java.io.IOException
@@ -44,11 +44,9 @@ data class GenerationData(
 fun GenerateTemplateView(screenManager: TemplateScreenManager) {
     val template = screenManager.selectedTemplate!!
     val args = findParamsInStructure(template.content)
-    val listState = rememberLazyListState()
-
     val mutableGenerationData = remember { mutableStateOf(GenerationData(mutableMapOf())) }
-    val generationData = mutableGenerationData.value
     val confirmGenerationOverlay = remember { mutableStateOf(false) }
+    val listState = rememberLazyListState()
 
     Column(
         Modifier.fillMaxHeight()
@@ -59,7 +57,7 @@ fun GenerateTemplateView(screenManager: TemplateScreenManager) {
 
         Row {
             Text(
-                "Générer le modèle '${template.name}'\ndans le dossier '${template.content.path}'",
+                "Générer le modèle '${template.name}'\ndans le dossier '${template.content.path}' ?",
                 fontSize = TextUnit(1F, TextUnitType.Em),
                 maxLines = 2,
                 style = TextStyle(
@@ -80,17 +78,14 @@ fun GenerateTemplateView(screenManager: TemplateScreenManager) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            val s = generationData.replacements.size
-            val ss = args.size
-
-            GenericUnconfirmButton("Retour") {
-                screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
+            GenericButton("Retour", Color.Red) {
+                screenManager.navigateTo(TemplateScreen.LIST_TEMPLATES)
             }
 
-            if (generationData.replacements.size == args.size) { // Replacements are completed
+            if (mutableGenerationData.value.replacements.size == args.size) { // Replacements are completed
                 Spacer(Modifier.width(32.dp))
 
-                GenericConfirmButton("Suivant") {
+                GenericButton("Suivant", customGreen) {
                     confirmGenerationOverlay.value = true
                 }
             }
@@ -101,7 +96,7 @@ fun GenerateTemplateView(screenManager: TemplateScreenManager) {
     Spacer(Modifier.height(64.dp))
 
     if (confirmGenerationOverlay.value) {
-        ConfirmGenerationWindow(screenManager, template, generationData.replacements)
+        ConfirmGenerationWindow(screenManager, template, mutableGenerationData.value.replacements)
     }
 }
 
@@ -151,21 +146,23 @@ private fun ConfirmGenerationWindow(
     template: TemplateDirectory,
     replacements: Map<String, String>
 ) {
-
     GenericConfirmWindow(
         confirmText = "Confirmez la génération du modèle",
-        onBack = { screenManager.navigateTo(TemplateScreen.MAIN_VIEW) },
+        onBack = { screenManager.navigateTo(TemplateScreen.LIST_TEMPLATES) },
         onConfirm = {
-            screenManager.navigateTo(TemplateScreen.MAIN_VIEW)
-
-            val file = buildNodeAsFiles(template.content, replacements)
-            try {
-                Desktop.getDesktop().open(file)
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+            screenManager.navigateTo(TemplateScreen.LIST_TEMPLATES)
+            buildAndOpen(template, replacements)
         }
     )
+}
+
+private fun buildAndOpen(template: TemplateDirectory, replacements: Map<String, String>) {
+    val file = buildNodeAsFiles(template.content, replacements)
+    try {
+        Desktop.getDesktop().open(file)
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
 }
 
 private fun findParamsInStructure(node: Node): List<String> {

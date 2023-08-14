@@ -21,7 +21,7 @@ import androidx.compose.material.*
 import androidx.compose.ui.Alignment
 import fr.quentixx.kfilebuilder.tabs.ConfigurationTab
 import fr.quentixx.kfilebuilder.tabs.InfoTab
-import fr.quentixx.kfilebuilder.tabs.templates.commons.TemplatesTab
+import fr.quentixx.kfilebuilder.tabs.templates.TemplatesTab
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.WindowPosition

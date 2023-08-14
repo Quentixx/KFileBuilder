@@ -47,9 +47,9 @@ object TemplateStorageService {
     }
 
     /**
-     * Saves all templates to the storage.
-     *
-     * @param templates The list of [TemplateDirectory] objects to be saved.
+     * Saves the provided template to the storage.
+     * If the template already exists by his UUID, it will be changed, otherwise it will be created.
+     * @param template The [TemplateDirectory] to save.
      */
     fun save(template: TemplateDirectory) {
         logger.info { "Saving template ${template.name}" }
