@@ -1,7 +1,7 @@
 package fr.quentixx.kfilebuilder.tabs.templates
 
 import androidx.compose.runtime.mutableStateOf
-import fr.quentixx.kfilebuilder.json.TemplateDirectory
+import fr.quentixx.kfilebuilder.data.TemplateDirectory
 import fr.quentixx.kfilebuilder.tabs.templates.screens.*
 import mu.KotlinLogging
 

@@ -25,7 +25,7 @@ import fr.quentixx.kfilebuilder.components.IconArrowRight
 import fr.quentixx.kfilebuilder.components.IconDir
 import fr.quentixx.kfilebuilder.components.IconFile
 import fr.quentixx.kfilebuilder.ext.hasNoSubDirectories
-import fr.quentixx.kfilebuilder.json.Node
+import fr.quentixx.kfilebuilder.data.Node
 import java.io.File
 
 @Composable

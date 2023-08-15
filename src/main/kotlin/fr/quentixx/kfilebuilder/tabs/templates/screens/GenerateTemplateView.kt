@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import fr.quentixx.kfilebuilder.color.customGreen
 import fr.quentixx.kfilebuilder.components.GenericConfirmWindow
 import fr.quentixx.kfilebuilder.components.GenericButton
-import fr.quentixx.kfilebuilder.json.Node
-import fr.quentixx.kfilebuilder.json.TemplateDirectory
+import fr.quentixx.kfilebuilder.data.Node
+import fr.quentixx.kfilebuilder.data.TemplateDirectory
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreen
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreenManager
 import java.awt.Desktop

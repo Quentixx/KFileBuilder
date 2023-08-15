@@ -1,7 +1,7 @@
 package fr.quentixx.kfilebuilder.tabs.templates
 
 import androidx.compose.runtime.*
-import fr.quentixx.kfilebuilder.json.TemplateStorageService
+import fr.quentixx.kfilebuilder.data.TemplateStorageService
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreen.*
 import fr.quentixx.kfilebuilder.tabs.templates.screens.DeleteTemplateView
 import fr.quentixx.kfilebuilder.tabs.templates.screens.GenerateTemplateView

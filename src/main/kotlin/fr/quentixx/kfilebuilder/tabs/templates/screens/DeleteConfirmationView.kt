@@ -2,7 +2,7 @@ package fr.quentixx.kfilebuilder.tabs.templates.screens
 
 import androidx.compose.runtime.Composable
 import fr.quentixx.kfilebuilder.components.GenericConfirmWindow
-import fr.quentixx.kfilebuilder.json.TemplateStorageService
+import fr.quentixx.kfilebuilder.data.TemplateStorageService
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreen
 import fr.quentixx.kfilebuilder.tabs.templates.TemplateScreenManager
 

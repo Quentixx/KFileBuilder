@@ -1,4 +1,4 @@
-package fr.quentixx.kfilebuilder.json
+package fr.quentixx.kfilebuilder.data
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
