@@ -29,6 +29,16 @@ import java.awt.Desktop
 import java.io.File
 import java.io.IOException
 
+/**
+ * Path separator in files names.
+ */
+val PATH_SEPARATOR = '-'
+
+/**
+ * Set of invalid characters to replace absolutely in name during node generation.
+ */
+val INVALID_CHARACTERS = setOf('/', '\\', '\"', ':', '?', '<', '>', '*')
+
 data class GenerationData(
     val replacements: MutableMap<String, String>,
     val lastUpdated: Long = System.currentTimeMillis(),
@@ -220,7 +230,9 @@ private fun buildNodeAsFiles(
     val pathWithReplacements = node.path.replace(Regex("\\{([^}]*)\\}")) {
         val argument = it.groupValues[1]
         replacements[argument] ?: it.value
-    }
+    }.map { char ->
+        if (char in INVALID_CHARACTERS) PATH_SEPARATOR else char
+    }.joinToString("")
 
     val file = File("$sourcePath$pathWithReplacements")
 

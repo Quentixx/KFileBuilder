@@ -29,7 +29,6 @@ When you confirm that you want to create the template, the files are created on 
 
 
 ## TODO
-- Replace non-valid characters (/, #, @, ...) to valid character like '-'
 - Delete a file in the template management view when user clicks on the bin icon.
 - File order In the tree selector, the folders must be on top of the other files.
 - Application auto update on launching if new version are available on this github project.
