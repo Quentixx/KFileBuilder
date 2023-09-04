@@ -59,9 +59,7 @@ fun GenerateTemplateView(screenManager: TemplateScreenManager) {
     val listState = rememberLazyListState()
 
     Column(
-        Modifier.fillMaxHeight()
-            .background(Color.DarkGray),
-        horizontalAlignment = Alignment.CenterHorizontally
+        Modifier.fillMaxHeight().background(Color.DarkGray), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(64.dp))
 
@@ -78,8 +76,7 @@ fun GenerateTemplateView(screenManager: TemplateScreenManager) {
 
         Spacer(Modifier.height(64.dp))
 
-        if (args.isNotEmpty())
-            GenerationArgumentsList(args, mutableGenerationData, listState)
+        if (args.isNotEmpty()) GenerationArgumentsList(args, mutableGenerationData, listState)
 
         Spacer(Modifier.height(64.dp))
 
@@ -112,30 +109,23 @@ fun GenerateTemplateView(screenManager: TemplateScreenManager) {
 
 @Composable
 private fun GenerationArgumentsList(
-    args: List<String>,
-    mutableGenerationData: MutableState<GenerationData>,
-    listState: LazyListState
+    args: List<String>, mutableGenerationData: MutableState<GenerationData>, listState: LazyListState
 ) {
     val generationData = mutableGenerationData.value
 
     LazyColumn(
-        state = listState,
-        modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        state = listState, modifier = Modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         itemsIndexed(args) { index, value ->
             TextField(
                 value = generationData.replacements[value] ?: value,
-                modifier = Modifier
-                    .background(Color.DarkGray)
-                    .requiredWidth(200.dp),
+                modifier = Modifier.background(Color.DarkGray).requiredWidth(200.dp),
                 onValueChange = {
                     mutableGenerationData.value = generationData.copy(
                         replacements = generationData.replacements.apply {
                             put(args[index], it)
-                        },
-                        lastUpdated = System.currentTimeMillis()
+                        }, lastUpdated = System.currentTimeMillis()
                     )
 
                 },
@@ -152,18 +142,14 @@ private fun GenerationArgumentsList(
 
 @Composable
 private fun ConfirmGenerationWindow(
-    screenManager: TemplateScreenManager,
-    template: TemplateDirectory,
-    replacements: Map<String, String>
+    screenManager: TemplateScreenManager, template: TemplateDirectory, replacements: Map<String, String>
 ) {
-    GenericConfirmWindow(
-        confirmText = "Confirmez la génération du modèle",
+    GenericConfirmWindow(confirmText = "Confirmez la génération du modèle",
         onBack = { screenManager.navigateTo(TemplateScreen.LIST_TEMPLATES) },
         onConfirm = {
             screenManager.navigateTo(TemplateScreen.LIST_TEMPLATES)
             buildAndOpen(template, replacements)
-        }
-    )
+        })
 }
 
 private fun buildAndOpen(template: TemplateDirectory, replacements: Map<String, String>) {
@@ -223,16 +209,14 @@ private fun findParamsInPath(path: String): Set<String> {
 }
 
 private fun buildNodeAsFiles(
-    node: Node,
-    replacements: Map<String, String>,
-    sourcePath: String = ""
+    node: Node, replacements: Map<String, String>, sourcePath: String = ""
 ): File {
     val pathWithReplacements = node.path.replace(Regex("\\{([^}]*)\\}")) {
         val argument = it.groupValues[1]
-        replacements[argument] ?: it.value
-    }.map { char ->
-        if (char in INVALID_CHARACTERS) PATH_SEPARATOR else char
-    }.joinToString("")
+        replacements[argument]?.map { char ->
+            if (char in INVALID_CHARACTERS) PATH_SEPARATOR else char
+        }?.joinToString("") ?: it.value
+    }
 
     val file = File("$sourcePath$pathWithReplacements")
 
