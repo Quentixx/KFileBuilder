@@ -6,7 +6,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>latest_logs.txt</file>
+        <file>${user.home}/KFileBuilder/latest_logs.txt</file>
         <append>false</append>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%level] [%thread] [%logger{0}] %msg%n</pattern>

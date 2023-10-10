@@ -13,7 +13,7 @@ private val logger = KotlinLogging.logger {}
 object TemplateStorageService {
 
     private val mapper = jacksonObjectMapper()
-    private val file = File("templates.json")
+    private val file = File(System.getProperty("user.home"), "KFileBuilder" + File.separator + "templates.json")
 
     init {
         if (!file.exists()) {
