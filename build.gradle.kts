@@ -26,7 +26,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.1")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
 
     testImplementation(kotlin("test"))
     testImplementation("org.jetbrains.compose.ui:ui-test-junit4-desktop:1.4.1")
