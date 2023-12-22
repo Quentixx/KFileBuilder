@@ -34,7 +34,7 @@ dependencies {
 
 tasks {
     compileKotlin {
-        java.targetCompatibility = JavaVersion.VERSION_1_8
+        java.targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
@@ -53,7 +53,7 @@ compose.desktop {
 tasks {
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "11"
         }
     }
 
