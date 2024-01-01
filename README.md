@@ -1,6 +1,14 @@
 # KFileBuilder
 A simple desktop application to build directories and files from templates. Built with [Compose for Desktop](https://github.com/JetBrains/compose-multiplatform) using Kotlin.
 
+# Prerequisites
+This software requires Java 11 to be installed. You can download and install Java 11 from the official Oracle website or use an alternative distribution such as OpenJDK. Verify your Java installation by running the following command in your terminal:
+
+```bash
+java -version
+```
+Make sure the installed Java version is 11 or higher. If not, upgrade your Java installation before proceeding with the software.
+
 ## Features
 - View directories in the computer and select one of them.
 - Pre-visualize files in tree before saving the template.
