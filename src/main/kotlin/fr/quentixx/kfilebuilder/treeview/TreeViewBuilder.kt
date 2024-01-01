@@ -33,7 +33,7 @@ fun TreeViewBuilder(mutableNode: MutableState<Node>) {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.DarkGray)
+            .background(Color.LightGray)
     ) {
         LazyColumn(
             state = listState,
