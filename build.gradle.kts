@@ -14,8 +14,6 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenLocal()
     mavenCentral()
-    gradlePluginPortal()
-    google()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
