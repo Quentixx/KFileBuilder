@@ -55,7 +55,7 @@ fun IconArrowDown(
     size: Dp = 10.dp
 ) = Icon(
     painterResource("icons/TreeArrow_Down.png"),
-    null, Modifier.size(size), Color.LightGray
+    null, Modifier.size(size), Color.Black
 )
 
 @Composable
@@ -63,7 +63,7 @@ fun IconArrowRight(
     size: Dp = 10.dp
 ) = Icon(
     painterResource("icons/TreeArrow_Right.png"),
-    null, Modifier.size(size), Color.LightGray
+    null, Modifier.size(size), Color.Black
 )
 
 @Composable
