@@ -1,5 +1,8 @@
 package fr.quentixx.kfilebuilder.components
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
@@ -27,27 +30,37 @@ fun IconDir() = Icon(
 @Composable
 fun TemplateAddDirIcon(
     onClick: () -> Unit,
-    size: Dp = 20.dp
-) = Icon(
-    painterResource("icons/Template_AddDirectory.png"),
+    size: Dp = 30.dp
+) = Image(
+    painterResource("icons/Icon_NewDirectory.png"),
     null, Modifier
         .size(size)
         .clickable { onClick.invoke() }
         .setOnHoverHandCursorEnabled(),
-    Color.Black
 )
 
 @Composable
 fun TemplateAddFileIcon(
     onClick: () -> Unit,
-    size: Dp = 20.dp
-) = Icon(
-    painterResource("icons/Template_AddFile.png"),
+    size: Dp = 32.dp
+) = Image(
+    painterResource("icons/Icon_NewFile.png"),
     null, Modifier
         .size(size)
         .clickable { onClick.invoke() }
         .setOnHoverHandCursorEnabled(),
-    Color.Black
+)
+
+@Composable
+fun SearchDirectoryIcon(
+    onClick: () -> Unit,
+    size: Dp = 30.dp
+) = Image(
+    painterResource("icons/Icon_SearchDirectory.png"),
+    null, Modifier
+        .size(size)
+        .clickable { onClick.invoke() }
+        .setOnHoverHandCursorEnabled(),
 )
 
 @Composable
