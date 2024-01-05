@@ -26,6 +26,7 @@ import fr.quentixx.kfilebuilder.components.IconDir
 import fr.quentixx.kfilebuilder.components.IconFile
 import fr.quentixx.kfilebuilder.ext.hasNoSubDirectories
 import fr.quentixx.kfilebuilder.data.Node
+import fr.quentixx.kfilebuilder.ext.setOnHoverHandCursorEnabled
 import java.io.File
 
 @Composable
@@ -40,29 +41,6 @@ fun FileList(
         dir.listFiles()?.forEach { file ->
             println("FileRow : Dir : ${file.path}")
             FileRow(currentSelectedFile, file, paddingSave, onlyDirectories)
-        }
-    }
-}
-
-@Composable
-fun NodeList(
-    mutableNode: MutableState<Node>,
-    paddingSave: Dp = 0.dp,
-    nodeRowScope: @Composable NodeRowScope
-) {
-    val node = mutableNode.value
-
-    Column {
-        node.children.forEach {
-            val mutableChild = remember { mutableStateOf(it) }
-
-            NodeRow(mutableChild, paddingSave, nodeRowScope)
-
-            // Update the current children in the loop with the new children information
-            mutableChild.value.apply {
-                it.path = path
-                it.lastUpdated = lastUpdated
-            }
         }
     }
 }
@@ -126,114 +104,4 @@ fun FileRow(
     if (expanded && file.isDirectory) {
         FileList(currentSelectedFile, file, onlyDirectories, padding)
     }
-}
-
-data class NodeRowData(
-    val node: MutableState<Node>,
-    val hovered: Boolean = false,
-)
-
-fun interface NodeRowScope {
-    @Composable
-    fun consume(data: MutableState<NodeRowData>)
-}
-
-@Composable
-fun NodeRow(
-    mutableNode: MutableState<Node>,
-    paddingSave: Dp = 0.dp,
-    nodeRowConsumer: @Composable NodeRowScope
-) {
-    var expanded by remember { mutableStateOf(false) }
-    val padding = paddingSave + 16.dp
-    val node = mutableNode.value
-    val isDir = node.isDirectory
-    val isEmptyDir = isDir && node.children.isEmpty()
-
-    val interactionSource = remember { MutableInteractionSource() }
-    val isHovered = interactionSource.collectIsHoveredAsState().value
-
-    val data = remember { mutableStateOf(NodeRowData(mutableNode, isHovered)) }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = padding)
-            .clickable {
-                if (!isEmptyDir) expanded = !expanded
-            }
-            .hoverable(interactionSource),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        data.value = data.value.copy(hovered = isHovered)
-
-        RenderNodeElement(mutableNode, expanded, data, nodeRowConsumer)
-    }
-
-    if (expanded && node.isDirectory) {
-        NodeList(mutableNode, padding, nodeRowConsumer)
-    }
-}
-
-@Composable
-fun RenderNodeElement(
-    mutableNode: MutableState<Node>,
-    expanded: Boolean,
-    data: MutableState<NodeRowData> = mutableStateOf(NodeRowData(mutableNode, false)),
-    nodeRowConsumer: @Composable NodeRowScope
-) {
-    val node = mutableNode.value
-    var spacingSize = 8.dp
-
-    if (node.children.isEmpty()) {
-        spacingSize *= 2
-    }
-
-    if (node.isDirectory) {
-        if (node.children.isNotEmpty()) {
-            if (expanded) IconArrowDown(8.dp)
-            else IconArrowRight(8.dp)
-        }
-        Spacer(Modifier.width(spacingSize))
-        IconDir()
-    } else {
-        Spacer(Modifier.width(spacingSize))
-        IconFile()
-    }
-
-    Spacer(Modifier.width(8.dp))
-    EditableHighlightedText(mutableNode)
-
-    nodeRowConsumer.consume(data)
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun EditableHighlightedText(mutableNode: MutableState<Node>) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-
-    BasicTextField(
-        value = mutableNode.value.path,
-        onValueChange = { newText ->
-            mutableNode.value = mutableNode.value.copy(
-                path = newText,
-                lastUpdated = System.currentTimeMillis()
-            )
-        },
-        keyboardActions = KeyboardActions(onDone = {
-            // Cacher le clavier lors de l'appui sur "Entrée"
-            keyboardController?.hide()
-        }),
-        singleLine = true,
-        modifier = Modifier
-            .onPreviewKeyEvent {
-                if (it.key == Key.Enter) {
-                    keyboardController?.hide() // Cacher le clavier lorsque "Entrée" est pressée
-                    true // Empêcher la propagation de l'événement de clavier
-                } else {
-                    false // Laisser passer les autres touches
-                }
-            }
-    )
 }
